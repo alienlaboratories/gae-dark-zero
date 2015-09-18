@@ -1,0 +1,23 @@
+#
+# Copyright 2015 Alien Laboratories, Inc.
+#
+
+#
+# gcloud auth login
+# gcloud config list
+# gcloud preview app deploy --set-default app.yaml
+#
+# https://dark-zero.appspot.com
+#
+
+runtime: python27
+api_version: 1
+threadsafe: no
+
+handlers:
+- url: /favicon\.ico
+  static_files: favicon.ico
+  upload: favicon\.ico
+
+- url: .*
+  script: main.app
