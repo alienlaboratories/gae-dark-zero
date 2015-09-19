@@ -2,11 +2,12 @@
 # Copyright 2015 Alien Laboratories, Inc.
 #
 
-from apiclient import discovery
-from oauth2client.client import GoogleCredentials
+import os
 import flask
-import httplib2
 import logging
+import requests
+from requests.adapters import HTTPAdapter
+from requests.packages.urllib3 import Retry
 
 
 # TODO(burdon): Config.

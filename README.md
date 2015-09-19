@@ -8,22 +8,23 @@
 - <https://cloud.google.com/pubsub/prereqs#push_endpoints>
 
 
-### Third-party libs
+## Set-up 
 
 - <https://cloud.google.com/appengine/docs/python/tools/libraries27#vendoring>
 
+    npm install
     grunt nx --init
-    
+
     gcloud auth login
     gcloud config set project dark-zero    
 
 
-### Testing
+## Testing
 
     gcloud preview app run app.yaml
 
 
-### Deploy
+## Deploy
 
     gcloud preview app deploy --set-default -q app.yaml
 

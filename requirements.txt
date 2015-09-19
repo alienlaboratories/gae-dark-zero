@@ -2,5 +2,5 @@
 # Copyright 2015 Alien Laboratories, Inc.
 #
 
-Flask==0.10
-google-api-python-client
+Flask
+requests
