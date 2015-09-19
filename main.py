@@ -10,6 +10,8 @@ from requests.adapters import HTTPAdapter
 from requests.packages.urllib3 import Retry
 
 
+__version__ = '0.0.1'
+
 # TODO(burdon): Config.
 FRONTEND_SERVER = 'http://www.dark-zero.net'
 PUSH_URL = os.path.join(FRONTEND_SERVER, '/webhook/google/push/email')
@@ -23,9 +25,21 @@ LOG = logging.getLogger(__name__)
 app = flask.Flask(__name__)
 
 
+# TODO(burdon): Make persistent?
+STATS = {
+    'sent': 0,
+    'errors': 0
+}
+
+
 @app.route('/')
 def home():
-    return 'Dark Zero'
+    LOG.info('OK')
+    return flask.jsonify({
+        'module': 'Dark Zero',
+        'version': __version__,
+        'stats': STATS
+    })
 
 
 @app.route('/push/email', methods=['POST'])
@@ -47,11 +61,14 @@ def push_email():
         # Make request.
         r = session.post(PUSH_URL, data=data)
         if r.status_code == requests.codes.ok:
+            STATS['sent'] += 1
             LOG.info('Posted notification.')
         else:
+            STATS['errors'] += 1
             r.raise_for_status()
 
     return flask.make_response()
+
 
 #
 # https://appengine.google.com/dashboard?&app_id=s~dark-zero
