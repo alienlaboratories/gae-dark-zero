@@ -1,0 +1,13 @@
+{
+  "name": "gae-dark-zero",
+  "description": "GAE Dark Zero",
+  "license": "UNLICENSED",
+  "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com:alienlabs/gae-dark-zero.git"
+  },
+  "devDependencies": {
+    "grunt": "^0.4.5"
+  }
+}

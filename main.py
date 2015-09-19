@@ -11,7 +11,8 @@ import logging
 
 LOG = logging.getLogger(__name__)
 
-# TODO(burdon): Move to config.
+
+# TODO(burdon): Just mirror notifications to frontend.
 
 PUBSUB_SCOPES = ['https://www.googleapis.com/auth/pubsub']
 
@@ -51,6 +52,7 @@ def notify():
     return flask.make_response()
 
 
+# TODO(burdon): Move to frontend project.
 @app.route('/init')
 def init():
     # Gmail Push Notifications.
