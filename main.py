@@ -12,7 +12,7 @@ import logging
 LOG = logging.getLogger(__name__)
 
 
-# TODO(burdon): Just mirror notifications to frontend.
+# TODO(burdon): Factor out pub/sub.
 
 PUBSUB_SCOPES = ['https://www.googleapis.com/auth/pubsub']
 
@@ -45,6 +45,7 @@ def home():
     return 'Dark Zero'
 
 
+# TODO(burdon): Route to frontend.
 @app.route('/notify', methods=['POST'])
 def notify():
     # https://developers.google.com/gmail/api/guides/push
