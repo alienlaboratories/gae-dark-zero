@@ -12,13 +12,10 @@
 
 - <https://cloud.google.com/appengine/docs/python/tools/libraries27#vendoring>
 
-- Pip requires simple hack to work with GAE:
-
-    - <http://stackoverflow.com/questions/24257803/distutilsoptionerror-must-supply-either-home-or-prefix-exec-prefix-not-both>    
+    grunt nx --init
     
-    echo -e '[install]\nprefix=' >  ~/.pydistutils.cfg 
-
-    sudo -H pip install -t lib --upgrade -r requirements.txt
+    gcloud auth login
+    gcloud config set project dark-zero    
 
 
 ### Testing

@@ -21,3 +21,21 @@ handlers:
 
 - url: .*
   script: main.app
+
+# https://cloud.google.com/appengine/docs/python/config/appconfig?hl=en#Python_app_yaml_Skipping_files
+skip_files:
+- ^(.*/)?#.*#$
+- ^(.*/)?.*~$
+- ^(.*/)?.*\.py[co]$
+- ^(.*/)?.*/RCS/.*$
+- ^(.*/)?\..*$
+
+- ^Gruntfile.*$
+- ^package.*$
+- ^requirements.*$
+- ^node_modules.*$
+- ^tools.*$
+
+- ^lib/pip.*$
+- ^lib/setuptools.*$
+- ^lib/wheel.*$
