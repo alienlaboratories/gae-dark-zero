@@ -8,14 +8,22 @@ import logging
 import requests
 from requests.adapters import HTTPAdapter
 from requests.packages.urllib3 import Retry
+from google.appengine.api import memcache
 
 
-__version__ = '0.0.1'
+# TODO(burdon): Link to GAE version.
+__version__ = '0.0.2'
+
 
 # TODO(burdon): Config.
 # TODO(burdon): Create /webhook/{hook} Generated and mapped to different hooks.
 FRONTEND_SERVER = 'http://darkzero.net'
 PUSH_URL = os.path.join(FRONTEND_SERVER, 'webhook/google/push/email')
+
+
+# Memcache
+KEY_ERROR = 'push.error'
+KEY_SENT = 'push.sent'
 
 
 logging.basicConfig()
@@ -26,20 +34,16 @@ LOG = logging.getLogger(__name__)
 app = flask.Flask(__name__)
 
 
-# TODO(burdon): Use memcache since reset on each invocation.
-STATS = {
-    'sent': 0,
-    'errors': 0
-}
-
-
 @app.route('/')
 def home():
     return flask.jsonify({
         'module': 'Dark Zero',
         'version': __version__,
         'server': PUSH_URL,
-        'stats': STATS
+        'stats': {
+            KEY_SENT: memcache.get(KEY_SENT) or 0,
+            KEY_ERROR: memcache.get(KEY_ERROR) or 0
+        }
     })
 
 
@@ -50,23 +54,24 @@ def push_email():
 
     # https://developers.google.com/gmail/api/guides/push
     # Test: curl -X POST http://www.darkzero.net/webhook/google/push/email
-    LOG.info('Push: %s:%s' % (PUSH_URL, flask.request.json))
-
     with requests.Session() as session:
 
         # noinspection PyTypeChecker
         session.mount('http://', HTTPAdapter(max_retries=Retry(total=5, backoff_factor=.5)))
 
-        # Content.
+        headers = {
+            'Content-Type': 'application/json'
+        }
+
         data = flask.request.data
 
         # Make request.
-        r = session.post(PUSH_URL, data=data)
+        r = session.post(PUSH_URL, headers=headers, data=data)
         if r.status_code == requests.codes.ok:
-            STATS['sent'] += 1
-            LOG.info('Posted notification.')
+            memcache.incr(KEY_SENT)
+            LOG.info('Pushed: %s:%s' % (PUSH_URL, flask.request.json()))
         else:
-            STATS['errors'] += 1
+            memcache.incr(KEY_ERROR)
             r.raise_for_status()
 
     return flask.make_response()
