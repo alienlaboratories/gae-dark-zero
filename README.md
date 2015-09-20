@@ -26,5 +26,6 @@
 
 ## Deploy
 
+    // TODO(burdon): Configure push to deploy.
     gcloud preview app deploy --set-default -q app.yaml
 
