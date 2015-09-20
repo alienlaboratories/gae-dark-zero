@@ -14,7 +14,7 @@ __version__ = '0.0.1'
 
 # TODO(burdon): Config.
 FRONTEND_SERVER = 'http://www.dark-zero.net'
-PUSH_URL = os.path.join(FRONTEND_SERVER, '/webhook/google/push/email')
+PUSH_URL = os.path.join(FRONTEND_SERVER, 'webhook/google/push/email')
 
 
 logging.basicConfig()
@@ -25,7 +25,7 @@ LOG = logging.getLogger(__name__)
 app = flask.Flask(__name__)
 
 
-# TODO(burdon): Make persistent?
+# TODO(burdon): Use memcache since reset on each invocation?
 STATS = {
     'sent': 0,
     'errors': 0
