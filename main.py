@@ -13,7 +13,7 @@ from requests.packages.urllib3 import Retry
 __version__ = '0.0.1'
 
 # TODO(burdon): Config.
-FRONTEND_SERVER = 'http://www.dark-zero.net'
+FRONTEND_SERVER = 'http://www.darkzero.net'
 PUSH_URL = os.path.join(FRONTEND_SERVER, 'webhook/google/push/email')
 
 
@@ -25,7 +25,7 @@ LOG = logging.getLogger(__name__)
 app = flask.Flask(__name__)
 
 
-# TODO(burdon): Use memcache since reset on each invocation?
+# TODO(burdon): Use memcache since reset on each invocation.
 STATS = {
     'sent': 0,
     'errors': 0
@@ -34,10 +34,10 @@ STATS = {
 
 @app.route('/')
 def home():
-    LOG.info('OK')
     return flask.jsonify({
         'module': 'Dark Zero',
         'version': __version__,
+        'server': PUSH_URL,
         'stats': STATS
     })
 
@@ -48,7 +48,7 @@ def push_email():
     GAE supports HTTPS automatically, so we use it as a proxy."""
 
     # https://developers.google.com/gmail/api/guides/push
-    LOG.info('Notification: %s' % flask.request.json)
+    LOG.info('Push: %s' % flask.request.json)
 
     with requests.Session() as session:
 
