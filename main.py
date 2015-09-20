@@ -69,7 +69,7 @@ def push_email():
         r = session.post(PUSH_URL, headers=headers, data=data)
         if r.status_code == requests.codes.ok:
             memcache.incr(KEY_SENT)
-            LOG.info('Pushed: %s:%s' % (PUSH_URL, flask.request.json()))
+            LOG.info('Pushed: %s:%s' % (PUSH_URL, flask.request.data)
         else:
             memcache.incr(KEY_ERROR)
             r.raise_for_status()
