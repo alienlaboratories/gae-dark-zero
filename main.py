@@ -13,7 +13,8 @@ from requests.packages.urllib3 import Retry
 __version__ = '0.0.1'
 
 # TODO(burdon): Config.
-FRONTEND_SERVER = 'http://www.darkzero.net'
+# TODO(burdon): Create /webhook/{hook} Generated and mapped to different hooks.
+FRONTEND_SERVER = 'http://darkzero.net'
 PUSH_URL = os.path.join(FRONTEND_SERVER, 'webhook/google/push/email')
 
 
@@ -48,7 +49,8 @@ def push_email():
     GAE supports HTTPS automatically, so we use it as a proxy."""
 
     # https://developers.google.com/gmail/api/guides/push
-    LOG.info('Push: %s' % flask.request.json)
+    # Test: curl -X POST http://www.darkzero.net/webhook/google/push/email
+    LOG.info('Push: %s:%s' % (PUSH_URL, flask.request.json))
 
     with requests.Session() as session:
 
