@@ -21,11 +21,11 @@
 
 ## Testing
 
+    # http://localhost:8080
     gcloud preview app run app.yaml
-
+    
 
 ## Deploy
 
     // TODO(burdon): Configure push to deploy.
     gcloud preview app deploy --set-default -q app.yaml
-

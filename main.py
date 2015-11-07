@@ -6,6 +6,7 @@ import os
 import flask
 import logging
 import requests
+
 from requests.adapters import HTTPAdapter
 from requests.packages.urllib3 import Retry
 from google.appengine.api import memcache
@@ -69,10 +70,11 @@ def push_email():
         r = session.post(PUSH_URL, headers=headers, data=data)
         if r.status_code == requests.codes.ok:
             memcache.incr(KEY_SENT)
-            LOG.info('Pushed: %s:%s' % (PUSH_URL, flask.request.data)
+            LOG.info('Pushed: %s:%s' % (PUSH_URL, flask.request.data))
+
         else:
+            # Count error but ACK to Google so retries don't stack up.
             memcache.incr(KEY_ERROR)
-            r.raise_for_status()
 
     return flask.make_response()
 
